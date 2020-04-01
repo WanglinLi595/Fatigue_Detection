@@ -23,32 +23,37 @@ class Ui_main_interface(object):
         main_interface.resize(865, 671)
         self.centralwidget = QWidget(main_interface)
         self.centralwidget.setObjectName(u"centralwidget")
+        self.horizontalLayout = QHBoxLayout(self.centralwidget)
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.lb_display = QLabel(self.centralwidget)
         self.lb_display.setObjectName(u"lb_display")
-        self.lb_display.setGeometry(QRect(9, 9, 62, 16))
         self.lb_display.setFrameShape(QFrame.Panel)
         self.lb_display.setFrameShadow(QFrame.Sunken)
-        self.widget = QWidget(self.centralwidget)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(642, 301, 135, 69))
-        self.verticalLayout = QVBoxLayout(self.widget)
+
+        self.horizontalLayout.addWidget(self.lb_display)
+
+        self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.label = QLabel(self.widget)
+        self.label = QLabel(self.centralwidget)
         self.label.setObjectName(u"label")
 
         self.verticalLayout.addWidget(self.label)
 
-        self.le_cam_index = QLineEdit(self.widget)
+        self.le_cam_index = QLineEdit(self.centralwidget)
         self.le_cam_index.setObjectName(u"le_cam_index")
 
         self.verticalLayout.addWidget(self.le_cam_index)
 
-        self.btn_start = QPushButton(self.widget)
+        self.btn_start = QPushButton(self.centralwidget)
         self.btn_start.setObjectName(u"btn_start")
 
         self.verticalLayout.addWidget(self.btn_start)
 
+
+        self.horizontalLayout.addLayout(self.verticalLayout)
+
+        self.horizontalLayout.setStretch(0, 9)
+        self.horizontalLayout.setStretch(1, 1)
         main_interface.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(main_interface)
         self.menubar.setObjectName(u"menubar")
