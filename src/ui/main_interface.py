@@ -31,9 +31,10 @@ class MainInterface(QMainWindow):
         self.ui = Ui_main_interface()
         self.ui.setupUi(self)
         
-        model_xml = r"E:\model\face-detection-adas-binary-0001\FP32-INT1\face-detection-adas-binary-0001.xml"
-        model_bin = r"E:\model\face-detection-adas-binary-0001\FP32-INT1\face-detection-adas-binary-0001.bin"
-
+        # model_xml = r"E:\model\face-detection-adas-binary-0001\FP32-INT1\face-detection-adas-binary-0001.xml"
+        # model_bin = r"E:\model\face-detection-adas-binary-0001\FP32-INT1\face-detection-adas-binary-0001.bin"
+        model_xml = r"E:\model\facial-landmarks-35-adas-0002\FP32\facial-landmarks-35-adas-0002.xml"
+        model_bin = r"E:\model\facial-landmarks-35-adas-0002\FP32\facial-landmarks-35-adas-0002.bin"
         # 创建 model_optimazor
         self._ie = model_optimazor()
         self._ie.load_module_file(model_xml, model_bin)
@@ -47,17 +48,18 @@ class MainInterface(QMainWindow):
         self.ui.btn_start.clicked.connect(self._run_start_ie)
         self._timer.timeout.connect(self._display)
 
-    @Slot()
-    def _run_start_ie(self):
+    @Slot(bool)
+    def _run_start_ie(self, b):
+
         # 从 self.ui.le_cam_index 获取摄像头索引
         index = eval(self.ui.le_cam_index.text())
         # 打开摄像头
-        # self._cap = cv2.VideoCapture(r"C:\Users\LWL\Desktop\sample-videos-master\face-demographics-walking.mp4")
-        self._cap = cv2.VideoCapture(0)
+        self._cap = cv2.VideoCapture(r"C:\Users\LWL\Desktop\sample-videos-master\head-pose-face-detection-female.mp4")
+        # self._cap = cv2.VideoCapture(0)
         # if cap.isOpened() == False:
         #     print("打开摄像头失败")
         #     QMessageBox.warning(self, "警告", "打开摄像头失败")
-        self._timer.start(10)
+        self._timer.start(50)
 
         
 

@@ -46,6 +46,9 @@ class Ui_main_interface(object):
 
         self.btn_start = QPushButton(self.centralwidget)
         self.btn_start.setObjectName(u"btn_start")
+        self.btn_start.setContextMenuPolicy(Qt.ActionsContextMenu)
+        self.btn_start.setCheckable(True)
+        self.btn_start.setFlat(False)
 
         self.verticalLayout.addWidget(self.btn_start)
 

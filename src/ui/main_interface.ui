@@ -42,8 +42,17 @@
       </item>
       <item>
        <widget class="QPushButton" name="btn_start">
+        <property name="contextMenuPolicy">
+         <enum>Qt::ActionsContextMenu</enum>
+        </property>
         <property name="text">
          <string>启动</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
