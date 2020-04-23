@@ -129,6 +129,6 @@ dmypy.json
 .pyre/
 
 # 自定义
-fical_keypoints_data/
-WFLW_annotations/
-WFLW_annotations.tar.gz
+model_data/
+
+

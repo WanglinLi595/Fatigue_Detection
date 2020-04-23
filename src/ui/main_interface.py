@@ -9,11 +9,10 @@
 @最后编辑时间: Do not Edit
 '''
 
-from PySide2.QtWidgets import  QMainWindow, QMessageBox
-from PySide2.QtCore import  Slot, QTimer
-from PySide2.QtGui import QPixmap, QImage
+from PyQt5.QtWidgets import  QMainWindow, QMessageBox
+from PyQt5.QtCore import  Slot, QTimer
+from PyQt5.QtGui import QPixmap, QImage
 from ui.gui_main_interface import Ui_main_interface
-from vino.vino import model_optimazor
 import cv2
 
 class MainInterface(QMainWindow):
