@@ -10,10 +10,11 @@
 '''
 
 from PyQt5.QtWidgets import  QMainWindow, QMessageBox
-from PyQt5.QtCore import  Slot, QTimer
+from PyQt5.QtCore import  QTimer, pyqtSlot
 from PyQt5.QtGui import QPixmap, QImage
 from ui.gui_main_interface import Ui_main_interface
 import cv2
+from get_data.get_data import GetData
 
 class MainInterface(QMainWindow):
     '''主界面类，用来组织所有的功能
@@ -29,48 +30,27 @@ class MainInterface(QMainWindow):
         super().__init__(parent)
         self.ui = Ui_main_interface()
         self.ui.setupUi(self)
+
+        self.time = QTimer()
         
-        # model_xml = r"E:\model\face-detection-adas-binary-0001\FP32-INT1\face-detection-adas-binary-0001.xml"
-        # model_bin = r"E:\model\face-detection-adas-binary-0001\FP32-INT1\face-detection-adas-binary-0001.bin"
-        model_xml = r"E:\model\facial-landmarks-35-adas-0002\FP32\facial-landmarks-35-adas-0002.xml"
-        model_bin = r"E:\model\facial-landmarks-35-adas-0002\FP32\facial-landmarks-35-adas-0002.bin"
-        # 创建 model_optimazor
-        self._ie = model_optimazor()
-        self._ie.load_module_file(model_xml, model_bin)
-
-        # 新建定时器
-        self._timer = QTimer()
-
         self._connect_slot()
 
     def _connect_slot(self):
-        self.ui.btn_start.clicked.connect(self._run_start_ie)
-        self._timer.timeout.connect(self._display)
+        self.ui.btn_start.clicked.connect(self._display)
+        self.time.timeout.connect(self.test)
 
-    @Slot(bool)
-    def _run_start_ie(self, b):
+    @pyqtSlot(bool)
+    def _display(self, checked):
+        self.facial_data = GetData()
+        self.time.start(1000)
+        if(checked==False):
+            self.time.stop()
 
-        # 从 self.ui.le_cam_index 获取摄像头索引
-        index = eval(self.ui.le_cam_index.text())
-        # 打开摄像头
-        self._cap = cv2.VideoCapture(r"C:\Users\LWL\Desktop\sample-videos-master\head-pose-face-detection-female.mp4")
-        # self._cap = cv2.VideoCapture(0)
-        # if cap.isOpened() == False:
-        #     print("打开摄像头失败")
-        #     QMessageBox.warning(self, "警告", "打开摄像头失败")
-        self._timer.start(50)
-
+    def test(self):
+        frame = self.facial_data.get_frame()
+        facial_keypoints = self.facial_data.get_result(frame)
         
-
-    def _display(self):
-        ret, self._frame = self._cap.read()
-        frame = self._ie.run_ie(self._frame)
-
-        h, w = frame.shape[:2]
-        temp_q_image = QImage(frame.data, w, h, QImage.Format_BGR888)
-        #  在 lb_display 中显示图片
-        self.ui.lb_display.setPixmap(QPixmap.fromImage(temp_q_image))
-        # cv2.imshow("res", frame)
+        
 
         
 
