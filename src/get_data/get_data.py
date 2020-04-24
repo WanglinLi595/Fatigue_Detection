@@ -16,10 +16,10 @@ from tensorflow import keras
 
 class GetData():
     def __init__(self, tf_model, cap_index=0):
-        self._tf_model = tf_model
-
+        print("正在载入模型成功")
+        self.model = tf.keras.models.load_model(tf_model)
+        print("载入模型成功")
         self._cap = cv.VideoCapture(cap_index)
-
         if(self._cap.isOpened==False):
             QMessageBox.critical(self, "警告", "相机打开失败")
 
@@ -29,6 +29,6 @@ class GetData():
             QMessageBox.critical(self, "警告", "未获取帧")
         return frame
 
-    def get_result(self):
-        facial_keypoints = tf.keras.models.load_model("self._tf_model")
+    def get_result(self, frame):
+        facial_keypoints = self.model.predict(frame)
         return facial_keypoints
