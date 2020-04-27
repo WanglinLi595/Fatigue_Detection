@@ -10,24 +10,30 @@
 '''
 
 import cv2 as cv
-from PyQt5.QtWidgets import QMessageBox
+import numpy as np
 import tensorflow as tf
 from tensorflow import keras
 
 class GetData():
     def __init__(self, tf_model, cap_index=0):
-        print("正在载入模型成功")
         self.model = tf.keras.models.load_model(tf_model)
-        print("载入模型成功")
         self._cap = cv.VideoCapture(cap_index)
         if(self._cap.isOpened==False):
-            QMessageBox.critical(self, "警告", "相机打开失败")
+            return -1
 
     def get_frame(self):
         ret, frame = self._cap.read()
         if(ret==False):
-            QMessageBox.critical(self, "警告", "未获取帧")
+            return -1
         return frame
+
+    def process_frame(self, frame):
+        frame = cv.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        image = cv.cvtColor(frame, cv2.COLOR_RGB2GRAY)
+        image = cv.resize(image, (120, 120))
+        image = np.reshape(image, [1, 120, 120, 1])
+        image = image / 255.
+        return image
 
     def get_result(self, frame):
         facial_keypoints = self.model.predict(frame)

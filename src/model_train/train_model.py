@@ -12,7 +12,6 @@
 import tensorflow as tf
 from tensorflow.keras.layers import (BatchNormalization, Conv2D, Activation, MaxPooling2D, Dense,
                                     GlobalAveragePooling2D, Dropout, Flatten)
-import pandas as pd
 from tensorflow.keras import optimizers, Sequential
 import numpy as np
 
@@ -43,7 +42,6 @@ class FacicalKeypointsModel():
         self._facial_model.add(Conv2D(72, (3, 3)))
         self._facial_model.add(Activation('relu'))
         self._facial_model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
-        self._facial_model.add(Dropout(0.2))
         # layer 5
         self._facial_model.add(Conv2D(72, (3, 3)))
         self._facial_model.add(Activation('relu'))
@@ -51,11 +49,16 @@ class FacicalKeypointsModel():
         # layer 6
         self._facial_model.add(Dense(500, activation="relu"))
         self._facial_model.add(Dropout(0.2))
+        # layer 6
+        self._facial_model.add(Dense(256, activation="relu"))
+        self._facial_model.add(Dropout(0.2))
         # layer 7
         self._facial_model.add(Dense(90, activation="relu"))
         self._facial_model.add(Dropout(0.2))
         # layer 8
-        self._facial_model.add(Dense(24))
+        self._facial_model.add(Dense(40))
+
+        self._facial_model.summary()
 
     def model_train(self, optimizer,epochs, x_train, y_train):
         self._facial_model.compile(optimizer=optimizer, loss='mse', metrics=['accuracy'])
@@ -68,13 +71,13 @@ class FacicalKeypointsModel():
 
 if __name__ == "__main__":
     # 提取数据
-    facial_image = np.load(r"E:\fcaial_keypoints_data\SmithCVPR2013_dataset_resized\image_datas.npy")
-    facial_keypoints = np.load(r"E:\fcaial_keypoints_data\SmithCVPR2013_dataset_resized\fcaial_keypoints_part.npy")
+    facial_image = np.load(r"E:\Fatigue_Detection\model_data\image_datas.npy")
+    facial_keypoints = np.load(r"E:\Fatigue_Detection\model_data\fcaial_keypoints_part.npy")
 
     model = FacicalKeypointsModel()
     model.model_build()
-    sgd = optimizers.SGD(lr=0.001, decay=1e-6, momentum=0.95, nesterov=True)
-    model.model_train(sgd, 150, facial_image, facial_keypoints)
+    sgd = optimizers.SGD(lr=0.008, decay=1e-6, momentum=0.95, nesterov=True)
+    model.model_train(sgd, 300, facial_image, facial_keypoints)
     model.save_model()
 
 

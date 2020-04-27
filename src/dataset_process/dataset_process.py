@@ -80,12 +80,14 @@ def main():
     #     plt.imshow(image)
     # plt.show()
 
-    fcaial_keypoints_part = fcaial_keypoints[:,[232,233,238,239,244,245,250,251,256,257,262,263,268,269,274,275,280,281,286,287,292,293,298,299]]
+    fcaial_keypoints_part_eye = fcaial_keypoints[:,[288,289,268,269,280,281,296,297,276,277,300,301,228,229,248,249,236,237,260,261,240,241,256,257]]
+    fcaial_keypoints_part_mouse = fcaial_keypoints[:,[116, 117, 140,141,178, 179,220,221,186,187,212,213, 192,193,204,205]]
+    fcaial_keypoints_part = np.hstack([fcaial_keypoints_part_eye, fcaial_keypoints_part_mouse])
 
     # 保存数据
-    np.save(r"E:\fcaial_keypoints_data\SmithCVPR2013_dataset_resized/fcaial_keypoints", fcaial_keypoints)
-    np.save(r"E:\fcaial_keypoints_data\SmithCVPR2013_dataset_resized/image_datas", image_datas)
-    np.save(r"E:\fcaial_keypoints_data\SmithCVPR2013_dataset_resized/fcaial_keypoints_part", fcaial_keypoints_part)
+    np.save(r"E:\Fatigue_Detection\model_data\fcaial_keypoints", fcaial_keypoints)
+    np.save(r"E:\Fatigue_Detection\model_data\image_datas", image_datas)
+    np.save(r"E:\Fatigue_Detection\model_data\fcaial_keypoints_part", fcaial_keypoints_part)
 
 if __name__ == "__main__":
     main()
