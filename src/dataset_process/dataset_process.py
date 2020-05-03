@@ -25,7 +25,7 @@ def main():
     files_count = len(points_files)
 
     # 指定修改后图片文件的尺寸
-    image_size_h, image_size_w = 120, 120
+    image_size_h, image_size_w = 150, 150
 
     # 建立 ndarray 数组，用来保存数据
     fcaial_keypoints = np.zeros([files_count, 388], dtype=np.float64)           # 保存关键点数据
@@ -63,6 +63,10 @@ def main():
         facial_keypoint[1::2] = facial_keypoint[1::2] / i[0] # 对人脸关键点数据的长进行缩放
         count += 1  
 
+    # 提取有用的特征点
+    fcaial_keypoints_eye = fcaial_keypoints[:,[288,289,268,269,280,281,296,297,276,277,300,301,228,229,248,249,236,237,260,261,240,241,256,257]]
+    #fcaial_keypoints_part_mouse = fcaial_keypoints[:,[116, 117, 140,141,178, 179,220,221,186,187,212,213, 192,193,204,205]]
+    #fcaial_keypoints_part = np.hstack([fcaial_keypoints_part_eye, fcaial_keypoints_part_mouse])
 
     # 查看数据效果
     #-----------------------------------------------------#
@@ -71,23 +75,19 @@ def main():
     # 左眼的点：134 - 153
     #-----------------------------------------------------#
     # plt.figure(figsize=[500, 500], dpi=80)
-    # for j in range(20):    # 总共展示十张图片
-    #     image = image_datas[j]    # 获取图片数据
-    #     image = cv.cvtColor(image, cv.COLOR_BGR2RGB)   # 由于 matplotlib 支持的是 rgb 色彩空间，所以我们需要将 bgr 转化为 rgb
-    #     for i in range(134, 154):
-    #         cv.circle(image, (int(fcaial_keypoints[j, 2*i]), int(fcaial_keypoints[j, 2*i+1])), 2, (255, 0, 0), -1)   # 进行打点
-    #     plt.subplot(2, 10, j+1)
-    #     plt.imshow(image)
+    # for j in range(10):    # 总共展示十张图片
+    #     image = np.reshape(image_datas[j], [120, 120])   # 获取图片数据
+    #     # image = cv.cvtColor(image, cv.COLOR_BGR2RGB)   # 由于 matplotlib 支持的是 rgb 色彩空间，所以我们需要将 bgr 转化为 rgb
+    #     for i in range(20):
+    #         cv.circle(image, (int(fcaial_keypoints_part[j, 2*i]), int(fcaial_keypoints_part[j, 2*i+1])), 1, 255, -1)   # 进行打点
+    #     plt.subplot(2, 5, j+1)
+    #     plt.imshow(image, cmap="gray")
     # plt.show()
-
-    fcaial_keypoints_part_eye = fcaial_keypoints[:,[288,289,268,269,280,281,296,297,276,277,300,301,228,229,248,249,236,237,260,261,240,241,256,257]]
-    fcaial_keypoints_part_mouse = fcaial_keypoints[:,[116, 117, 140,141,178, 179,220,221,186,187,212,213, 192,193,204,205]]
-    fcaial_keypoints_part = np.hstack([fcaial_keypoints_part_eye, fcaial_keypoints_part_mouse])
 
     # 保存数据
     np.save(r"E:\Fatigue_Detection\model_data\fcaial_keypoints", fcaial_keypoints)
     np.save(r"E:\Fatigue_Detection\model_data\image_datas", image_datas)
-    np.save(r"E:\Fatigue_Detection\model_data\fcaial_keypoints_part", fcaial_keypoints_part)
+    np.save(r"E:\Fatigue_Detection\model_data\fcaial_keypoints_eye", fcaial_keypoints_eye)
 
 if __name__ == "__main__":
     main()
