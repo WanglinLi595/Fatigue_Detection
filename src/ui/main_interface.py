@@ -12,6 +12,7 @@
 from PyQt5.QtWidgets import  QMainWindow, QMessageBox
 from PyQt5.QtCore import  QTimer, pyqtSlot
 from PyQt5.QtGui import QPixmap, QImage
+from PyQt5.QtChart import QChartView, QChart, QLineSeries, QValueAxis
 from ui.gui_main_interface import Ui_main_interface
 import cv2
 from get_data.get_data import GetData
