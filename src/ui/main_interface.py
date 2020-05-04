@@ -36,10 +36,40 @@ class MainInterface(QMainWindow):
         self.ui.setupUi(self)
         self.time = QTimer()
         self._connect_slot()
+        self.ear_data_chart_init()
+
+        self._t = 0
 
     def _connect_slot(self):
         self.ui.btn_start.clicked.connect(self._display)
         self.time.timeout.connect(self.test)
+
+    def ear_data_chart_init(self):
+        self._chart = QChart()
+        self._chart.setTitle("眼睛闭合程度值")
+        self._chartView = QChartView(self)
+        self._chartView.setChart(self._chart)
+        self.ui.horizontalLayout_2.addWidget(self._chartView)
+        self._series0 = QLineSeries()
+        self._series1 = QLineSeries()
+        self._series0.setName("左眼曲线")
+        self._series1.setName("右眼曲线")
+        self._chart.addSeries(self._series0)
+        self._chart.addSeries(self._series1)
+
+        self._axisX = QValueAxis()
+        self._axisX.setRange(0, 120)
+        self._axisX.setTitleText("time(secs)")
+
+        self._axisY = QValueAxis()
+        self._axisY.setRange(0, 0.5)
+        self._axisY.setTitleText("value")
+
+        self._chart.setAxisX(self._axisX, self._series0)
+        self._chart.setAxisY(self._axisY, self._series0)
+        
+        self._chart.setAxisX(self._axisX, self._series1)
+        self._chart.setAxisY(self._axisY, self._series1)
 
     @pyqtSlot(bool)
     def _display(self, checked):
@@ -83,12 +113,18 @@ class MainInterface(QMainWindow):
             for i in range(12):
                 facial = cv2.circle(frame, (int(facial_keypoints[2*i]), int(facial_keypoints[2*i+1])), 2, (255, 0, 0), -1)   # 进行打点
             a = result_process.eyes_process(facial_keypoints)
+            self._series0.append(self._t, a[0])
+            self._series1.append(self._t, a[1])
             print(a)
             h, w = facial.shape[:2]
             temp_q_image = QImage(facial.data, w, h, QImage.Format_RGB888)
             #  在 lb_display 中显示图片
             self.ui.lb_display.setPixmap(QPixmap.fromImage(temp_q_image))
-
+            self._t += 1
+            if(self._t>120):
+                self._series0.clear()
+                self._series1.clear()
+                self._t=0
 
             # image = cv2.resize(facial, (150, 150))
             # image = np.reshape(image, [1, 150, 150, 1])

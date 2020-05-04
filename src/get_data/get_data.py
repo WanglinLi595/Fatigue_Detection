@@ -17,7 +17,8 @@ from tensorflow import keras
 class GetData():
     def __init__(self, tf_model, cap_index=0):
         self.model = tf.keras.models.load_model(tf_model)
-        self._cap = cv.VideoCapture(r"C:\Users\LWL\Pictures\Camera Roll\WIN_20200502_15_03_25_Pro.mp4")
+        self._cap = cv.VideoCapture(r"C:\Users\LWL\Pictures\Camera Roll\WIN_20200503_07_51_19_Pro.mp4")
+        # self._cap = cv.VideoCapture(0)
         if(self._cap.isOpened==False):
             return -1
 
