@@ -16,10 +16,37 @@ from tensorflow.keras import optimizers, Sequential
 import numpy as np
 
 class FacicalKeypointsModel():
-    def __init__(self):
-        pass
+    '''用于处理人脸多特征点检测神经网络模型
+
+    用于处理人脸多特征点检测神经网络模型，包括搭建人脸多特征点检测神经网络模型，编译训练人脸多特征点检测神经网络模型以及
+    保存人脸多特征点检测神经网络模型。
+
+    @属性说明: 
+        self._facial_model：一个 Sequential 神经网络模型
+
+
+    @方法说明: 
+        model_build()：搭建人脸多特征点检测神经网络模型
+        model_train()：编译训练人脸多特征点检测神经网络模型
+        save_model()：保存人脸多特征点检测神经网络模型
+
+    @注意: 
+        暂无
+    '''    
 
     def model_build(self):
+        '''搭建人脸多特征点检测神经网络模型
+
+
+        @参数说明: 
+            无
+
+        @返回值: 
+            无
+
+        @注意: 
+            无
+        '''
         # 建立模型
         self._facial_model = Sequential()
         # input layer
@@ -61,12 +88,37 @@ class FacicalKeypointsModel():
         self._facial_model.summary()
 
     def model_train(self, optimizer,epochs, x_train, y_train):
-        self._facial_model.compile(optimizer=optimizer, loss='mse', metrics=['accuracy'])
-        history = self._facial_model.fit(x_train, y_train, validation_split=0.2, shuffle=True, epochs=epochs, batch_size=20)
-        return history
+        '''编译训练人脸多特征点检测神经网络模型
+
+        @参数说明: 
+            optimizer：模型的优化方法
+            epochs：模型的训练次数
+            x_train：训练输入数据
+            y_train：训练目标数据
+
+        @返回值: 
+            history：返回训练数据
+
+        @注意: 
+            暂无
+        '''
+        self._facial_model.compile(optimizer=optimizer, loss='mse', metrics=['accuracy'])  # 模型编译
+        history = self._facial_model.fit(x_train, y_train, validation_split=0.2, shuffle=True, epochs=epochs, batch_size=20)  # 模型训练
+        return history  # 返回训练数据
 
     def save_model(self, model_name="save_model"):
-        tf.keras.models.save_model(model, model_name)
+        '''保存人脸多特征点检测神经网络模型
+
+        @参数说明: 
+            model_name：模型保存名
+
+        @返回值: 
+            无
+
+        @注意: 
+            无
+        '''
+        tf.keras.models.save_model(model, model_name)           # 保存训练好的模型
 
 
 if __name__ == "__main__":
@@ -74,11 +126,11 @@ if __name__ == "__main__":
     facial_image = np.load(r"E:\Fatigue_Detection\model_data\image_datas.npy")
     facial_keypoints = np.load(r"E:\Fatigue_Detection\model_data\fcaial_keypoints_part.npy")
 
-    model = FacicalKeypointsModel()
-    model.model_build()
-    sgd = optimizers.SGD(lr=0.008, decay=1e-6, momentum=0.95, nesterov=True)
-    model.model_train(sgd, 300, facial_image, facial_keypoints)
-    model.save_model()
+    model = FacicalKeypointsModel()         # 创建 FacicalKeypointsModel 类
+    model.model_build()                     # 开始构建模型
+    sgd = optimizers.SGD(lr=0.008, decay=1e-6, momentum=0.95, nesterov=True)        # 指定模型优化方式
+    model.model_train(sgd, 300, facial_image, facial_keypoints)                     # 开始模型训练
+    model.save_model()                                                              # 保存训练后的模型
 
 
 
