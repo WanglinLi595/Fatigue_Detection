@@ -92,7 +92,7 @@ def perclos_judge(eye_process_data, threshold):
     print(proportion)
     if(proportion > 0.8):       # 比例大于 80%
         return -2               # 为过度疲劳状态
-    if(proportion > 0.3 and proportion < 0.8):       # 比例小于 80% 大于 60%
+    if(proportion > 0.2 and proportion < 0.8):       # 比例小于 80% 大于 20%
         return -1               # 为疲劳状态
     else:                                       
         return 0                # 状态良好                      

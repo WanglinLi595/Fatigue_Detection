@@ -196,7 +196,7 @@ class Ui_main_interface(object):
         self.label_11.setText(_translate("main_interface", "左眼计算值："))
         self.lb_right_eye_figure.setText(_translate("main_interface", "未开始检测"))
         self.label_5.setText(_translate("main_interface", "睁闭眼阈值设置："))
-        self.le_eye_threshold.setText(_translate("main_interface", "0.3"))
+        self.le_eye_threshold.setText(_translate("main_interface", "0.25"))
         self.label.setText(_translate("main_interface", "摄像头索引："))
         self.cmb_cap_index.setItemText(0, _translate("main_interface", "0"))
         self.cmb_cap_index.setItemText(1, _translate("main_interface", "1"))

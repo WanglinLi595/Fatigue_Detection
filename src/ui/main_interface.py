@@ -114,7 +114,7 @@ class MainInterface(QMainWindow):
 
         # 创建坐标轴
         self._axis_x = QValueAxis()          # x 轴
-        self._axis_x.setRange(0, 120)        # 设置 x 轴坐标范围
+        self._axis_x.setRange(0, 60)        # 设置 x 轴坐标范围
         self._axis_x.setTitleText("time(secs)")     # x 轴标题
         self._axis_y = QValueAxis()         # y 轴
         self._axis_y.setRange(0, 0.4)       # 设置 y 轴坐标范围
@@ -146,10 +146,10 @@ class MainInterface(QMainWindow):
             self.time.stop()
         else:
             threshold_str = self.ui.le_eye_threshold.text()        # 获得睁闭眼阈值
-            threshold_str = re.match(r"\d\.\d$", threshold_str)      # 对睁闭眼阈值做限定 
+            threshold_str = re.match(r"\d\.\d\d$", threshold_str)      # 对睁闭眼阈值做限定 
             if(threshold_str==None):
                 message_title = "阈值格式错误"
-                message_text = "请输入正确的阈值格式，格式为 x.x (x 为数字)"
+                message_text = "请输入正确的阈值格式，格式为 x.xx (x 为数字)"
                 QMessageBox.critical(self, message_title, message_text)
             else:
                 self.ui.btn_start.setText("停止")
@@ -159,7 +159,7 @@ class MainInterface(QMainWindow):
                 cap_index = eval(self.ui.cmb_cap_index.currentText())       # 从 combabox 获取设想头索引
                 # cap_file = r"C:\Users\LWL\Pictures\Camera Roll\WIN_20200503_07_51_19_Pro.mp4"
                 self.facial_data = GetFacialData(tf_model=model_path, facial_model_file=opencv_facial_path, cap_index=cap_index) # 创建 GetFacialData 类
-                self.time.start(5000)       # 设置每次检测的间隔时间
+                self.time.start(1000)       # 设置每次检测的间隔时间
                 self.ui.lb_fatigue_detection.setText("检测中")
                 self._series0.clear()
                 self._series1.clear()
@@ -226,8 +226,8 @@ class MainInterface(QMainWindow):
                 #  在 lb_display 中显示图片
                 self.ui.lb_display.setPixmap(QPixmap.fromImage(temp_q_image))
 
-                self._t += 5   # 每个 10s 绘制点
-                if(self._t>120):
+                self._t += 1   # 每个 1s 绘制点
+                if(self._t>60):
                     # 获取 series0 以及 series1 中所有的数据
                     left_eye_point = self._series0.pointsVector()
                     right_eye_point = self._series1.pointsVector()

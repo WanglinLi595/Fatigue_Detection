@@ -77,13 +77,14 @@ def main():
 
     # 查看人脸图片与特征点的关系
     # plt.figure(figsize=[500, 500], dpi=80)
-    for j in range(10):    # 总共展示十张图片
-        z = j + 20
+    for j in range(4):    # 总共展示十张图片
+        z = j + 44
         image = np.reshape(image_datas[z], [150, 150])   # 获取图片数据
         # image = cv.cvtColor(image, cv.COLOR_BGR2RGB)   # 由于 matplotlib 支持的是 rgb 色彩空间，所以我们需要将 bgr 转化为 rgb
         for i in range(12):
             cv.circle(image, (int(facial_keypoints_eye[z, 2*i]), int(facial_keypoints_eye[z, 2*i+1])), 1, 255, -1)   # 进行打点
-        plt.subplot(2, 5, j+1)
+            cv.putText(image, str(i), (int(facial_keypoints_eye[z, 2*i]), int(facial_keypoints_eye[z, 2*i+1])), cv.FONT_HERSHEY_PLAIN, 0.4, 255, 1)
+        plt.subplot(2, 2, j+1)
         plt.imshow(image, cmap="gray")
     plt.show()
 
