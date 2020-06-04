@@ -47,43 +47,37 @@ class FacicalKeypointsModel():
         @注意: 
             无
         '''
+    
         # 建立模型
         self._facial_model = Sequential()
         # input layer
-        self._facial_model.add(BatchNormalization(input_shape=(120, 120, 1)))
-        self._facial_model.add(Conv2D(48, (5, 5), kernel_initializer='he_normal'))
-        self._facial_model.add(Activation('relu'))
+        self._facial_model.add(BatchNormalization(input_shape=(image_size, image_size, 1)))
+        self._facial_model.add(Conv2D(24, (5, 5), kernel_initializer='he_normal'))
         self._facial_model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
         self._facial_model.add(Dropout(0.2))
         # layer 2
-        self._facial_model.add(Conv2D(60, (5, 5)))
-        self._facial_model.add(Activation('relu'))
+        self._facial_model.add(Conv2D(36, (5, 5), activation="relu"))
         self._facial_model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
         self._facial_model.add(Dropout(0.2))
         # layer 3
-        self._facial_model.add(Conv2D(72, (5, 5)))
-        self._facial_model.add(Activation('relu'))
+        self._facial_model.add(Conv2D(48, (5, 5), activation='relu'))
         self._facial_model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
         self._facial_model.add(Dropout(0.2))
         # layer 4
-        self._facial_model.add(Conv2D(72, (3, 3)))
-        self._facial_model.add(Activation('relu'))
+        self._facial_model.add(Conv2D(64, (3, 3), activation='relu'))
         self._facial_model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+        self._facial_model.add(Dropout(0.2))
         # layer 5
-        self._facial_model.add(Conv2D(72, (3, 3)))
-        self._facial_model.add(Activation('relu'))
+        self._facial_model.add(Conv2D(64, (3, 3), activation='relu'))
         self._facial_model.add(Flatten())
         # layer 6
-        self._facial_model.add(Dense(500, activation="relu"))
-        self._facial_model.add(Dropout(0.2))
-        # layer 6
-        self._facial_model.add(Dense(256, activation="relu"))
-        self._facial_model.add(Dropout(0.2))
+        self._facial_model.add(Dense(512, activation="relu"))
         # layer 7
-        self._facial_model.add(Dense(90, activation="relu"))
-        self._facial_model.add(Dropout(0.2))
+        self._facial_model.add(Dense(256, activation="relu"))
         # layer 8
-        self._facial_model.add(Dense(40))
+        self._facial_model.add(Dense(128, activation="relu"))
+        # layer 9
+        self._facial_model.add(Dense(24))
 
         self._facial_model.summary()
 
@@ -103,7 +97,7 @@ class FacicalKeypointsModel():
             暂无
         '''
         self._facial_model.compile(optimizer=optimizer, loss='mse', metrics=['accuracy'])  # 模型编译
-        history = self._facial_model.fit(x_train, y_train, validation_split=0.2, shuffle=True, epochs=epochs, batch_size=20)  # 模型训练
+        history = self._facial_model.fit(x_train, y_train, shuffle=True, epochs=epochs, batch_size=20)  # 模型训练
         return history  # 返回训练数据
 
     def save_model(self, model_name="save_model"):
@@ -118,19 +112,25 @@ class FacicalKeypointsModel():
         @注意: 
             无
         '''
-        tf.keras.models.save_model(model, model_name)           # 保存训练好的模型
+        tf.keras.models.save_model(self._facial_model, model_name)           # 保存训练好的模型
 
 
 if __name__ == "__main__":
     # 提取数据
-    facial_image = np.load(r"E:\Fatigue_Detection\model_data\image_datas.npy")
-    facial_keypoints = np.load(r"E:\Fatigue_Detection\model_data\fcaial_keypoints_part.npy")
+    facial_image = np.load(r"E:\make_data\data\image_datas_1.npy")
+    facial_keypoints = np.load(r"E:\make_data\data\facial_keypoints_1.npy")
+
+    image_size = 150
+
+    facial_image = facial_image/255.0
+    facial_keypoints = 2 * (facial_keypoints / image_size) - 1
+
 
     model = FacicalKeypointsModel()         # 创建 FacicalKeypointsModel 类
     model.model_build()                     # 开始构建模型
-    sgd = optimizers.SGD(lr=0.008, decay=1e-6, momentum=0.95, nesterov=True)        # 指定模型优化方式
-    model.model_train(sgd, 300, facial_image, facial_keypoints)                     # 开始模型训练
-    model.save_model()                                                              # 保存训练后的模型
+    sgd = optimizers.SGD(lr=0.005, decay=1e-6, momentum=0.95, nesterov=True)        # 指定模型优化方式
+    model.model_train(sgd, 2000, facial_image, facial_keypoints)                    # 开始模型训练
+    model.save_model(r"E:\make_data\data\facial")                                   # 保存训练后的模型
 
 
 

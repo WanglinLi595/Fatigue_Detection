@@ -83,7 +83,7 @@ def main():
         # image = cv.cvtColor(image, cv.COLOR_BGR2RGB)   # 由于 matplotlib 支持的是 rgb 色彩空间，所以我们需要将 bgr 转化为 rgb
         for i in range(12):
             cv.circle(image, (int(facial_keypoints_eye[z, 2*i]), int(facial_keypoints_eye[z, 2*i+1])), 1, 255, -1)   # 进行打点
-            cv.putText(image, str(i), (int(facial_keypoints_eye[z, 2*i]), int(facial_keypoints_eye[z, 2*i+1])), cv.FONT_HERSHEY_PLAIN, 0.4, 255, 1)
+            cv.putText(image, str(i), (int(facial_keypoints_eye[z, 2*i]), int(facial_keypoints_eye[z, 2*i+1])), cv.FONT_HERSHEY_COMPLEX_SMALL, 0.1, 255)
         plt.subplot(2, 2, j+1)
         plt.imshow(image, cmap="gray")
     plt.show()

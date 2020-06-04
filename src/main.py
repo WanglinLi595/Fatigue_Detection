@@ -17,4 +17,4 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     form = MainInterface()      # 创建主界面类
     form.show()                 # 显示主界面
-    sys.exit(app.exec_())  
+    sys.exit(app.exec_())

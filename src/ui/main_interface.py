@@ -117,7 +117,7 @@ class MainInterface(QMainWindow):
         self._axis_x.setRange(0, 60)        # 设置 x 轴坐标范围
         self._axis_x.setTitleText("time(secs)")     # x 轴标题
         self._axis_y = QValueAxis()         # y 轴
-        self._axis_y.setRange(0, 0.4)       # 设置 y 轴坐标范围
+        self._axis_y.setRange(0, 0.5)       # 设置 y 轴坐标范围
         self._axis_y.setTitleText("value")  # y 轴标题
 
         # 为序列设置坐标轴
@@ -154,7 +154,7 @@ class MainInterface(QMainWindow):
             else:
                 self.ui.btn_start.setText("停止")
                 self.ui.le_eye_threshold.setEnabled(False)
-                model_path = r"E:\tensorflow_usage_flow"            # 人脸关键模型路径
+                model_path = r"E:\make_data\facial"            # 人脸关键模型路径
                 opencv_facial_path = r"E:\Fatigue_Detection\model_data\facial_model\haarcascade_frontalface_default.xml"    # 人脸检测模型路径
                 cap_index = eval(self.ui.cmb_cap_index.currentText())       # 从 combabox 获取设想头索引
                 # cap_file = r"C:\Users\LWL\Pictures\Camera Roll\WIN_20200503_07_51_19_Pro.mp4"

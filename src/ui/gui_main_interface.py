@@ -193,7 +193,7 @@ class Ui_main_interface(object):
         self.lb_facial_number.setText(_translate("main_interface", "未开始检测"))
         self.label_4.setText(_translate("main_interface", "左眼计算值："))
         self.lb_left_eye_figure.setText(_translate("main_interface", "未开始检测"))
-        self.label_11.setText(_translate("main_interface", "左眼计算值："))
+        self.label_11.setText(_translate("main_interface", "右眼计算值："))
         self.lb_right_eye_figure.setText(_translate("main_interface", "未开始检测"))
         self.label_5.setText(_translate("main_interface", "睁闭眼阈值设置："))
         self.le_eye_threshold.setText(_translate("main_interface", "0.25"))
